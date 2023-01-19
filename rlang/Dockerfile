@@ -8,16 +8,9 @@ RUN apt update && \
   # kableExtra
   apt install -y texlive-plain-generic libfontconfig1-dev
 
-RUN Rscript -e "install.packages('rmarkdown')" && \
-  Rscript -e "install.packages('bookdown')" && \
-  Rscript -e "install.packages('reticulate')" && \
-  Rscript -e "install.packages('ggplot2')" && \
-  Rscript -e "install.packages('scico')" && \
-  Rscript -e "install.packages('dplyr')" && \
-  Rscript -e "install.packages('reshape2')" && \
-  Rscript -e "install.packages('tidyverse')" && \
-  Rscript -e "install.packages('tikzDevice')" && \
-  Rscript -e "install.packages('kableExtra')"
+COPY packages.r packages.r
+
+RUN Rscript packages.r
 
 RUN apt update && \
   apt install -y python3-pip && \
