@@ -1,4 +1,4 @@
-FROM r-base:4.2.2
+FROM r-ubuntu:jammy
 
 RUN apt update && \
   # reticulate
