@@ -1,12 +1,4 @@
-FROM rocker/r-ubuntu:jammy
-
-RUN apt update && \
-  # reticulate
-  apt install -y libpng-dev && \
-  # tidyverse
-  apt install -y zlib1g-dev libcurl4-openssl-dev libssl-dev libxml2-dev && \
-  # kableExtra
-  apt install -y texlive-plain-generic libfontconfig1-dev
+FROM eddelbuettel/r2u:22.04
 
 COPY packages.r packages.r
 

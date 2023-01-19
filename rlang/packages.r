@@ -1,16 +1,13 @@
-options(install.packages.compile.from.source = "never")
-
 # ggplot2
-install.packages(c("ggplot2", "scico"), type = "binary")
+install.packages(c("ggplot2", "scico"))
 
 # rmarkdown
 install.packages(
-  c("rmarkdown", "bookdown", "tikzDevice", "kableExtra"),
-  type = "binary"
+  c("rmarkdown", "bookdown", "tikzDevice", "kableExtra")
 )
 
 # data
-install.packages(c("dplyr", "reshape2", "tidyverse"), type = "binary")
+install.packages(c("dplyr", "reshape2", "tidyverse"))
 
 # python
-install.packages(c("reticulate"), type = "binary")
+install.packages(c("reticulate"))
