@@ -1,6 +1,7 @@
 name: ci
 
 on:
+  pull_request:
   push:
     branches:
       - "main"
@@ -32,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.context }}
-          push: true
+          push: ${{ github.event.action }} == "push"
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.context }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
