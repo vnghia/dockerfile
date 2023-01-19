@@ -1,4 +1,4 @@
-FROM r-ubuntu:jammy
+FROM rocker/r-ubuntu:jammy
 
 RUN apt update && \
   # reticulate
