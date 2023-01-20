@@ -12,4 +12,6 @@ install.packages(c("reticulate"))
 
 # tinytex
 install.packages(c("tinytex"))
-tinytex::install_tinytex(force = TRUE)
+library(tinytex)
+install_tinytex(force = TRUE)
+tlmgr_install(c("biber"))
