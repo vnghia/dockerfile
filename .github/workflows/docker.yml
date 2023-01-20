@@ -32,12 +32,15 @@ jobs:
       - name: Get commit sha
         id: commit
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get image tag
+        id: tag
+        run: echo "image_tag=${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.context }}:${{ steps.commit.outputs.sha_short }}" >> $GITHUB_OUTPUT
       - name: Build and push
         if: steps.filter.outputs.context == 'true'
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.context }}
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.context }}:${{ steps.commit.outputs.sha_short }}
+          tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
