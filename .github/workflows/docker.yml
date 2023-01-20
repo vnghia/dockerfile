@@ -38,6 +38,7 @@ jobs:
           filters: |
             context:
               - "${{ steps.context.outputs.context_dir }}/**"
+              - ".github/workflows/docker.yml"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Login to Docker Hub
