@@ -29,12 +29,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Get commit sha
-        id: commit
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get image tag
         id: tag
-        run: echo "image_tag=${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.context }}:${{ steps.commit.outputs.sha_short }}" >> $GITHUB_OUTPUT
+        run: echo "image_tag=${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.context }}:latest" >> $GITHUB_OUTPUT
       - name: Build and push
         if: steps.filter.outputs.context == 'true'
         uses: docker/build-push-action@v3
