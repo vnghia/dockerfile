@@ -11,3 +11,7 @@ install.packages(c("dplyr", "reshape2", "tidyverse"))
 
 # python
 install.packages(c("reticulate"))
+
+# tinytex
+install.packages(c("tinytex"))
+tinytex::install_tinytex()
