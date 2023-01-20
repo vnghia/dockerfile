@@ -4,9 +4,11 @@ COPY packages.r packages.r
 
 RUN Rscript packages.r
 
+COPY requirements.txt requirements.txt
+
 RUN apt update && \
-  apt install -y python3-pip && \
-  pip install numpy radian
+  apt install -y python3-pip python-is-python3 && \
+  pip install -r requirements.txt
 
 RUN apt update && \
   apt install -y pandoc texlive-bibtex-extra \
