@@ -1,1 +1,5 @@
+# radian
 radian==0.6.4
+
+# science
+numpy==1.24.1
