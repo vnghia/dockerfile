@@ -50,6 +50,7 @@ jobs:
         id: tag
         run: echo "image_tag=${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.context }}:latest" >> $GITHUB_OUTPUT
       - name: Build and push
+        id: build
         if: steps.filter.outputs.context == 'true'
         uses: docker/build-push-action@v3
         with:
@@ -62,3 +63,4 @@ jobs:
       - name: Test
         if: steps.filter.outputs.context == 'true'
         run: pip install -r test-requirements.txt
+        run: echo ${{ steps.build.outputs.imageid }}
