@@ -18,7 +18,7 @@ jobs:
       - id: context_root
         run: echo "context_root=context" >> $GITHUB_OUTPUT
       - id: contexts
-        run: echo "contexts=$(ls -d ${{ steps.context_root.outputs.context_root }}/* | jq --raw-input --slurp --compact-output 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+        run: echo "contexts=$(cd ${{ steps.context_root.outputs.context_root }} && ls -d * | jq --raw-input --slurp --compact-output 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
 
   docker:
     needs: collect_contexts
