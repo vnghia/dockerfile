@@ -14,4 +14,4 @@ install.packages(c("reticulate"))
 
 # tinytex
 install.packages(c("tinytex"))
-tinytex::install_tinytex(force = TRUE)
+tinytex::install_tinytex(force = TRUE, dir = "/tinytex/")
