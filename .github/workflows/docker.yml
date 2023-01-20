@@ -14,7 +14,7 @@ jobs:
       context_root: ${{ steps.context_root.outputs.context_root }}
       contexts: ${{ steps.contexts.outputs.contexts }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: context_root
         run: echo "context_root=context" >> $GITHUB_OUTPUT
       - id: contexts
