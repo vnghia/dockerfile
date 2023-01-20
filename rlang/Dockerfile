@@ -13,4 +13,4 @@ RUN apt update && \
   apt install -y python3-pip python-is-python3 && \
   pip install -r requirements.txt
 
-RUN echo "alias r=radian" >> ~/.bash_profile
+RUN echo "alias r=radian" >> ~/.bashrc
