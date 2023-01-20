@@ -16,12 +16,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Set context path
+        id: context
+        run: echo "context_dir=context/${{ matrix.context }}" >> $GITHUB_OUTPUT
       - uses: dorny/paths-filter@v2
         id: filter
         with:
           filters: |
             context:
-              - "${{ matrix.context }}/**"
+              - "${{ steps.context.outputs.context_dir }}/**"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Login to Docker Hub
@@ -36,7 +39,7 @@ jobs:
         if: steps.filter.outputs.context == 'true'
         uses: docker/build-push-action@v3
         with:
-          context: ${{ matrix.context }}
+          context: ${{ steps.context.outputs.context_dir }}
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
