@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 import docker
+from docker.errors import ContainerError
 
 
 def main():
@@ -24,16 +25,20 @@ def main():
                 str(Path.cwd().resolve()) + ":" + test_path
             ]
             working_dir = test_data.pop("working_dir", test_path)
-            print(
-                client.containers.run(
-                    args.imageid,
-                    test_data.pop("command"),
-                    entrypoint=entrypoint,
-                    volumes=volumes,
-                    working_dir=working_dir,
-                    **test_data,
-                ).decode("utf-8")
-            )
+            try:
+                print(
+                    client.containers.run(
+                        args.imageid,
+                        test_data.pop("command"),
+                        entrypoint=entrypoint,
+                        volumes=volumes,
+                        working_dir=working_dir,
+                        **test_data,
+                    ).decode("utf-8")
+                )
+            except ContainerError as exc:
+                print(exc.container.logs())
+                raise exc
     else:
         print(
             f"::warning ::Test data file ({args.testdata}) not found. No tests will be performed."
