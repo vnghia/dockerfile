@@ -29,12 +29,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set context path
+      - name: Set context variable
         id: context
         run: |
           export CONTEXT_ROOT=${{ needs.collect_contexts.outputs.context_root }}/${{ matrix.context }}
           echo "context_dir=${CONTEXT_ROOT}" >> $GITHUB_OUTPUT
           echo "context_test=${CONTEXT_ROOT}/test" >> $GITHUB_OUTPUT
+          echo "push_image=${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}" >> $GITHUB_OUTPUT
       - uses: dorny/paths-filter@v2
         id: filter
         with:
@@ -59,17 +60,18 @@ jobs:
         with:
           context: ${{ steps.context.outputs.context_dir }}
           outputs: |
-            type=${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && 'registry' || 'docker' }}
+            type=${{ (steps.context.outputs.push_image == 'true') && 'registry' || 'docker' }}
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Test
-        if: steps.build.outputs.imageid != ''
+        if: ${{ steps.context.outputs.push_image != 'true' }}
         run: |
           pip install -q -r test/test-requirements.txt
           mkdir -p ${{ steps.context.outputs.context_test }}
           cd ${{ steps.context.outputs.context_test }} && python ${GITHUB_WORKSPACE}/test/test-entry.py ${{ steps.build.outputs.imageid }} test.json
       - name: Upload test output
+        if: ${{ steps.context.outputs.push_image != 'true' }}
         uses: actions/upload-artifact@v3
         with:
           name: test-output
