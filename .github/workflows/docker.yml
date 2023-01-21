@@ -32,8 +32,9 @@ jobs:
       - name: Set context path
         id: context
         run: |
-          echo "context_dir=${{ needs.collect_contexts.outputs.context_root }}/${{ matrix.context }}" >> $GITHUB_OUTPUT
-          echo "context_test=${{ steps.context.outputs.context_dir }}/test" >> $GITHUB_OUTPUT
+          export CONTEXT_ROOT=${{ needs.collect_contexts.outputs.context_root }}/${{ matrix.context }}
+          echo "context_dir=${CONTEXT_ROOT}" >> $GITHUB_OUTPUT
+          echo "context_test=${CONTEXT_ROOT}/test" >> $GITHUB_OUTPUT
       - uses: dorny/paths-filter@v2
         id: filter
         with:
