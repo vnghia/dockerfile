@@ -1,3 +1,3 @@
 {
-  "command": "Rscript render.r"
+  "command": ["Rscript", "render.r"]
 }
