@@ -60,18 +60,18 @@ jobs:
         with:
           context: ${{ steps.context.outputs.context_dir }}
           outputs: |
-            type=${{ steps.context.outputs.push_image && 'registry' || 'docker' }}
+            type=${{ (steps.context.outputs.push_image == 'true') && 'registry' || 'docker' }}
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Test
-        if: ${{ !steps.context.outputs.push_image }}
+        if: ${{ steps.context.outputs.push_image != 'true' }}
         run: |
           pip install -q -r test/test-requirements.txt
           mkdir -p ${{ steps.context.outputs.context_test }}
           cd ${{ steps.context.outputs.context_test }} && python ${GITHUB_WORKSPACE}/test/test-entry.py ${{ steps.build.outputs.imageid }} test.json
       - name: Upload test output
-        if: ${{ !steps.context.outputs.push_image }}
+        if: ${{ steps.context.outputs.push_image != 'true' }}
         uses: actions/upload-artifact@v3
         with:
           name: test-output
