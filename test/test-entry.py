@@ -29,9 +29,13 @@ def main():
                     test_data.pop("command"),
                     volumes=volumes,
                     working_dir=working_dir,
-                    **test_data
+                    **test_data,
                 ).decode("utf-8")
             )
+    else:
+        print(
+            f"::warning ::No test data {args.testdata} found. No test will be performed."
+        )
 
 
 if __name__ == "__main__":
