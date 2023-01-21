@@ -1,0 +1,8 @@
+---
+biblatexoptions: 
+  - backend=biber
+output:
+  bookdown::pdf_document2:
+    latex_engine: lualatex
+    citation_package: biblatex
+---
