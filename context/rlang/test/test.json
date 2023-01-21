@@ -1,3 +1,9 @@
 {
-  "command": ["Rscript render.r", "mkdir -p output", "mv test.pdf output/"]
+  "command": [
+    "Rscript render.r",
+    "ls",
+    "mkdir -p output",
+    "mv test.pdf output/",
+    "ls output/*"
+  ]
 }
