@@ -19,6 +19,7 @@ def main():
         with open(args.testdata, "r") as f:
             test_data = json.load(f)
             test_path = "/test"
+            entrypoint = test_data.pop("entrypoint", ["/bin/bash", "-l", "-c"])
             volumes = test_data.pop("volumes", []) + [
                 str(Path.cwd().resolve()) + ":" + test_path
             ]
@@ -27,6 +28,7 @@ def main():
                 client.containers.run(
                     args.imageid,
                     test_data.pop("command"),
+                    entrypoint=entrypoint,
                     volumes=volumes,
                     working_dir=working_dir,
                     **test_data,
