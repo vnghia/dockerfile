@@ -60,8 +60,9 @@ jobs:
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Set up test
+        if: steps.filter.outputs.context == 'true'
+        run: pip install -r tests/test-requirements.txt
       - name: Test
         if: steps.filter.outputs.context == 'true'
-        run: |
-          pip install -r tests/test-requirements.txt
-          python tests/test-entry.py ${{ steps.build.outputs.imageid }}
+        run: python tests/test-entry.py ${{ steps.build.outputs.imageid }}
