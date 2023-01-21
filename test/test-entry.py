@@ -15,7 +15,7 @@ def main():
 
     client = docker.from_env()
 
-    if args.testdata.exits():
+    if args.testdata.exists():
         with open(args.testdata, "r") as f:
             testdata = json.load(f)
             print(
