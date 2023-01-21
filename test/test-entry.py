@@ -37,7 +37,7 @@ def main():
                     ).decode("utf-8")
                 )
             except ContainerError as exc:
-                print(exc.container.logs())
+                print(exc.container.logs().decode("utf-8"))
                 raise exc
     else:
         print(
