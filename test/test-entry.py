@@ -24,6 +24,7 @@ def main():
             volumes = test_data.pop("volumes", []) + [
                 str(Path.cwd().resolve()) + ":" + test_path
             ]
+            print(volumes)
             working_dir = test_data.pop("working_dir", test_path)
             try:
                 print(
