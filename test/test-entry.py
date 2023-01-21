@@ -17,10 +17,19 @@ def main():
 
     if args.testdata.exists():
         with open(args.testdata, "r") as f:
-            testdata = json.load(f)
+            test_data = json.load(f)
+            test_path = "/test"
+            volumes = test_data.pop("volumes", []) + [
+                str(Path.cwd().resolve()) + ":" + test_path
+            ]
+            working_dir = test_data.pop("working_dir", test_path)
             print(
                 client.containers.run(
-                    args.imageid, testdata.pop("command"), **testdata
+                    args.imageid,
+                    test_data.pop("command"),
+                    volumes=volumes,
+                    working_dir=working_dir,
+                    **test_data
                 ).decode("utf-8")
             )
 
