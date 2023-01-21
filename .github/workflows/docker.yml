@@ -64,4 +64,5 @@ jobs:
         if: steps.filter.outputs.context == 'true'
         run: |
           pip install -r tests/test-requirements.txt
+          echo ${{ steps.build.outputs.imageid }}
           python tests/test-entry.py
