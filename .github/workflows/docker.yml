@@ -69,3 +69,9 @@ jobs:
           pip install -q -r test/test-requirements.txt
           mkdir -p ${{ steps.context.outputs.context_test }}
           cd ${{ steps.context.outputs.context_test }} && python ${GITHUB_WORKSPACE}/test/test-entry.py ${{ steps.build.outputs.imageid }} test.json
+      - name: Upload test output
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-output
+          path: ${{ steps.context.outputs.context_test }}/output
+          if-no-files-found: warn
