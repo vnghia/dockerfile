@@ -31,7 +31,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Set context path
         id: context
-        run: echo "context_dir=${{ needs.collect_contexts.outputs.context_root }}/${{ matrix.context }}" >> $GITHUB_OUTPUT
+        run: |
+          export CONTEXT_ROOT=${{ needs.collect_contexts.outputs.context_root }}/${{ matrix.context }}
+          echo "context_dir=${CONTEXT_ROOT}" >> $GITHUB_OUTPUT
+          echo "context_test=${CONTEXT_ROOT}/test" >> $GITHUB_OUTPUT
       - uses: dorny/paths-filter@v2
         id: filter
         with:
@@ -49,13 +52,26 @@ jobs:
       - name: Get image tag
         id: tag
         run: echo "image_tag=${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.context }}:latest" >> $GITHUB_OUTPUT
-      - name: Build and push
+      - name: Build
+        id: build
         if: steps.filter.outputs.context == 'true'
         uses: docker/build-push-action@v3
         with:
           context: ${{ steps.context.outputs.context_dir }}
           outputs: |
-            type=image,push=${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+            type=${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && 'registry' || 'docker' }}
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Test
+        if: steps.build.outputs.imageid != ''
+        run: |
+          pip install -q -r test/test-requirements.txt
+          mkdir -p ${{ steps.context.outputs.context_test }}
+          cd ${{ steps.context.outputs.context_test }} && python ${GITHUB_WORKSPACE}/test/test-entry.py ${{ steps.build.outputs.imageid }} test.json
+      - name: Upload test output
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-output
+          path: ${{ steps.context.outputs.context_test }}/output
+          if-no-files-found: warn
