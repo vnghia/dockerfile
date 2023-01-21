@@ -49,30 +49,19 @@ jobs:
       - name: Get image tag
         id: tag
         run: echo "image_tag=${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.context }}:latest" >> $GITHUB_OUTPUT
-      - name: Build and push
+      - name: Build
+        id: build
         if: steps.filter.outputs.context == 'true'
         uses: docker/build-push-action@v3
         with:
           context: ${{ steps.context.outputs.context_dir }}
           outputs: |
-            type=image,push=${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-          tags: ${{ steps.tag.outputs.image_tag }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-      - name: Build for testing
-        id: build-testing
-        if: steps.filter.outputs.context == 'true'
-        uses: docker/build-push-action@v3
-        with:
-          context: ${{ steps.context.outputs.context_dir }}
-          outputs: |
-            type=docker
+            type=${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && 'registry' || 'docker' }}
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Test
-        if: steps.filter.outputs.context == 'true'
+        if: steps.build.outputs.imageid != ''
         run: |
           pip install -r tests/test-requirements.txt
-          docker images
-          python tests/test-entry.py ${{ steps.build-testing.outputs.imageid }}
+          python tests/test-entry.py ${{ steps.build.outputs.imageid }}
