@@ -6,3 +6,16 @@ output:
     latex_engine: lualatex
     citation_package: biblatex
 ---
+
+```{r, chunk, include=F, cache=F}
+knitr::read_chunk("test.r")
+```
+
+```{r init, include=F, cache=F}
+```
+
+# First header
+
+## Subheader
+
+Test content.
