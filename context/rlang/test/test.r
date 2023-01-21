@@ -21,3 +21,7 @@ mtcars %>%
     booktabs = T, escape = F,
   ) %>%
   kable_styling(latex_options = c("hold_position", "scale_down"))
+
+## ---- ggplot ----
+diamonds %>% ggplot(aes(x = carat, y = price, color = clarity)) +
+  geom_smooth()

@@ -24,3 +24,8 @@ Sample content.
 
 ```{r kable}
 ```
+
+## Ggplot
+
+```{r ggplot}
+```
