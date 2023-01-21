@@ -16,3 +16,5 @@ RUN apt update && \
   pip install -r requirements.txt
 
 RUN echo "alias r=radian" >> ~/.bashrc
+
+ENV R_LATEXCMD=/usr/bin/lualatex
