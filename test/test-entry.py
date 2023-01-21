@@ -34,7 +34,7 @@ def main():
             )
     else:
         print(
-            f"::warning ::No test data {args.testdata} found. No test will be performed."
+            f"::warning ::Test data ({args.testdata}) not found. No test will be performed."
         )
 
 
