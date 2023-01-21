@@ -63,6 +63,6 @@ jobs:
       - name: Test
         if: steps.build.outputs.imageid != ''
         run: |
-          pip install -r test/test-requirements.txt
+          pip install -q -r test/test-requirements.txt
           mkdir -p ${{ steps.context.outputs.context_dir }}/test
           cd ${{ steps.context.outputs.context_dir }}/test && python ${GITHUB_WORKSPACE}/test/test-entry.py ${{ steps.build.outputs.imageid }}
