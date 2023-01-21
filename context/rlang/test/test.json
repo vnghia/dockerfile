@@ -1,3 +1,4 @@
 {
-  "command": ["Rscript render.R"]
+  "command": ["Rscript render.R"],
+  "environment": ["R_LATEXCMD=/usr/bin/lualatex"]
 }
