@@ -65,4 +65,6 @@ jobs:
         run: pip install -r tests/test-requirements.txt
       - name: Test
         if: steps.filter.outputs.context == 'true'
-        run: python tests/test-entry.py ${{ steps.build.outputs.imageid }}
+        run: |
+          docker images
+          python tests/test-entry.py ${{ steps.build.outputs.imageid }}
