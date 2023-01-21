@@ -1,3 +1,3 @@
 {
-  "command": "Rscript -e \"rmarkdown::render(\"test.rmd\")\" && mkdir -p output && mv test.pdf output/"
+  "command": "Rscript -e test.r && mkdir -p output && mv test.pdf output/"
 }
