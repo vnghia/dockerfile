@@ -16,6 +16,11 @@ knitr::read_chunk("test.r")
 
 # First header
 
-## Subheader
+## Text
 
-Test content.
+Sample content.
+
+## Kable
+
+```{r kable}
+```
