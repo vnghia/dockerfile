@@ -1,4 +1,4 @@
 {
   "command": "pwd && ls && Rscript -e test.r && mkdir -p output && mv test.pdf output/",
-  "entrypoint": "bash"
+  "entrypoint": ["/bin/bash", "-l", "-c"]
 }
