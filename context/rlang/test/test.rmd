@@ -1,0 +1,41 @@
+---
+biblatexoptions: 
+  - backend=biber
+output:
+  bookdown::pdf_document2:
+    latex_engine: lualatex
+    citation_package: biblatex
+---
+
+```{r, chunk, include=F, cache=F}
+knitr::read_chunk("test.r")
+```
+
+```{r init, include=F, cache=F}
+```
+
+# First header
+
+## Text
+
+Sample content.
+
+## Kable
+
+```{r kable}
+```
+
+## Ggplot
+
+```{r ggplot}
+```
+
+## Numpy
+
+```{r numpy}
+```
+
+## Scico
+
+```{r scico}
+```
