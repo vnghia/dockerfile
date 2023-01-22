@@ -18,4 +18,4 @@ tlmgr_install(c("biber", "biblatex"))
 
 # tikz
 tlmgr_install(c("pgf", "preview", "xcolor"))
-parse_install(files = "grfext.sty")
+parse_install(files = c("grfext.sty", "luatex85.sty"))
