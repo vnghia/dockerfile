@@ -1,5 +1,3 @@
 {
-  "command": [
-    "ls /usr/bin/lualatex; lualatex --version; luatex --version; Rscript render.R"
-  ]
+  "command": ["Rscript render.R"]
 }
