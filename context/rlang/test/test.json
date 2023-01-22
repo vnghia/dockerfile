@@ -1,5 +1,5 @@
 {
   "command": [
-    "printenv PATH; lualatex --version; luatex --version; Rscript render.R"
+    "ls /usr/bin/lualatex; lualatex --version; luatex --version; Rscript render.R"
   ]
 }
