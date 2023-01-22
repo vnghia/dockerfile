@@ -1,5 +1,6 @@
 ## ---- init ----
 library(ggplot2)
+library(hrbrthemes)
 library(scico)
 
 library(kableExtra)
@@ -16,6 +17,15 @@ knitr::opts_chunk$set(
 options(tikzDefaultEngine = "luatex")
 
 np <- import("numpy")
+
+default_theme <- theme_ipsum(base_family = "") + theme(
+  axis.title.x = element_text(hjust = 0.5),
+  axis.title.y = element_text(hjust = 0.5), plot.margin = margin(
+    t = 0.5, r = 2, b = 0.5, l = 2, "cm"
+  )
+)
+
+theme_set(default_theme)
 
 ## ---- kable ----
 head(mtcars) %>%
@@ -39,5 +49,15 @@ midwest %>% ggplot(aes(x = area, y = poptotal)) +
 ## ---- numpy ----
 np$random$seed(0L)
 normal <- np$random$randn(100000L)
-data.frame(normal) %>% ggplot() +
-  geom_histogram(aes(x = normal))
+data.frame(normal) %>% ggplot(aes(x = normal)) +
+  geom_density(alpha = .2, fill = "#FF6666")
+
+## ---- scico ----
+volcano <- data.frame(
+  x = rep(seq_len(ncol(volcano)), each = nrow(volcano)),
+  y = rep(seq_len(nrow(volcano)), ncol(volcano)),
+  height = as.vector(volcano)
+)
+ggplot(volcano, aes(x = x, y = y, fill = height)) +
+  geom_raster() +
+  scale_fill_scico(palette = "lajolla")

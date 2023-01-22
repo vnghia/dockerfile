@@ -34,3 +34,8 @@ Sample content.
 
 ```{r numpy}
 ```
+
+## Scico
+
+```{r scico}
+```
