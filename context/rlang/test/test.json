@@ -1,4 +1,5 @@
 {
-  "command": ["Rscript render.R"],
-  "entrypoint": null
+  "command": [
+    "ls /usr/bin/lualatex; lualatex --version; luatex --version; Rscript render.R"
+  ]
 }

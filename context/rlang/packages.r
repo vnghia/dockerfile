@@ -13,7 +13,7 @@ install.packages(c("reticulate"))
 # tinytex
 install.packages(c("tinytex"))
 library(tinytex)
-install_tinytex(force = TRUE)
+install_tinytex(force = TRUE, version = "2023.01")
 tlmgr_install(c("biber", "biblatex"))
 
 # tikz
