@@ -23,5 +23,19 @@ mtcars %>%
   kable_styling(latex_options = c("hold_position", "scale_down"))
 
 ## ---- ggplot ----
-diamonds %>% ggplot(aes(x = carat, y = price, color = clarity)) +
-  geom_smooth()
+midwest %>% ggplot(aes(x = area, y = poptotal)) +
+  geom_point(aes(col = state, size = popdensity)) +
+  geom_smooth(method = "loess", se = F) +
+  xlim(c(0, 0.1)) +
+  ylim(c(0, 500000)) +
+  labs(
+    subtitle = "Area Vs Population",
+    y = "Population",
+    x = "Area",
+  )
+
+## ---- numpy ----
+np$random$seed(0L)
+normal <- np$random$randn(100000L)
+data.frame(normal) %>% ggplot() +
+  geom_histogram(aes(x = normal))
