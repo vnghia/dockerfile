@@ -15,3 +15,7 @@ install.packages(c("tinytex"))
 library(tinytex)
 install_tinytex(force = TRUE)
 tlmgr_install(c("biber", "biblatex"))
+
+# tikz
+tlmgr_install(c("pgf", "preview", "xcolor"))
+parse_install(files = "grfext.sty")
