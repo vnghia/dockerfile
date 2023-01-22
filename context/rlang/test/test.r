@@ -10,13 +10,15 @@ library(tidyverse)
 
 library(reticulate)
 
-knitr::opts_chunk$set(dev = "tikz", echo = F, cache = T)
+knitr::opts_chunk$set(
+  dev = "tikz", echo = F, message = F, warning = F, cache = T
+)
 options(tikzDefaultEngine = "luatex")
 
 np <- import("numpy")
 
 ## ---- kable ----
-mtcars %>%
+head(mtcars) %>%
   kbl(
     booktabs = T, escape = F,
   ) %>%
