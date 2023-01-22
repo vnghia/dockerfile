@@ -4,6 +4,8 @@ COPY packages.r packages.r
 
 RUN Rscript packages.r
 
+ENV PATH="${PATH}:/root/bin/"
+
 COPY requirements.txt requirements.txt
 
 RUN apt update && \
