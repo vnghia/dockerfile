@@ -1,4 +1,5 @@
 {
-  "command": ["lualatex --version; luatex --version; Rscript render.R"],
-  "entrypoint": null
+  "command": [
+    "printenv PATH; lualatex --version; luatex --version; Rscript render.R"
+  ]
 }
