@@ -13,6 +13,7 @@ RUN apt update && \
   rm -rf /var/lib/apt/lists/*
 
 RUN apt update && \
+  apt install -y --no-install-recommends git && \
   apt install -y --no-install-recommends \
   python3-pip python-is-python3 python3-dev && \
   rm -rf /var/lib/apt/lists/* && \
