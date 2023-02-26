@@ -2,6 +2,12 @@ name: ci
 
 on:
   workflow_dispatch:
+    inputs:
+      refresh-cache:
+        description: "Refresh the docker build cache"
+        required: true
+        type: boolean
+        default: false
   pull_request:
   push:
     branches:
@@ -65,6 +71,7 @@ jobs:
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          no-cache: ${{ inputs.refresh-cache }}
       - name: Test
         if: ${{ steps.context.outputs.push_image != 'true' }}
         run: |
