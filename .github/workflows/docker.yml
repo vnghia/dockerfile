@@ -71,7 +71,7 @@ jobs:
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          no-cache: ${{ inputs.refresh-cache }}
+          no-cache: ${{ (github.event.inputs.refresh-cache != '') && github.event.inputs.refresh-cache || 'false' }}
       - name: Test
         if: ${{ steps.context.outputs.push_image != 'true' }}
         run: |
