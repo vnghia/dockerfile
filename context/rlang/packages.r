@@ -1,5 +1,5 @@
 # ggplot2
-install.packages(c("ggplot2", "hrbrthemes", "scico"))
+install.packages(c("ggplot2", "hrbrthemes", "scico", "patchwork"))
 
 # rmarkdown
 install.packages(c("bookdown", "tikzDevice", "kableExtra"))
