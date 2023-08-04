@@ -1,5 +1,9 @@
-# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,windows,visualstudiocode
+# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows,visualstudiocode,direnv
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,windows,visualstudiocode,direnv
+
+### direnv ###
+.direnv
+.envrc
 
 ### Linux ###
 *~
@@ -88,4 +92,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,visualstudiocode,direnv
