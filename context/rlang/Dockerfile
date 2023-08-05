@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   python-is-python3 python3-dev python3-pip python3-venv \
   && python -m venv $VIRTUAL_ENV \
   && pip install --no-cache-dir numpy pandas jupyterlab radian \
-  && Rscript -e 'install.packages(c("reticulate"))' \
+  && Rscript -e 'install.packages(c("reticulate", "IRkernel")); IRkernel::installspec()' \
   && rm -rf /var/lib/apt/lists/*
 
 # ggplot2
