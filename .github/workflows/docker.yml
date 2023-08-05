@@ -63,11 +63,12 @@ jobs:
       - name: Build
         id: build
         if: steps.filter.outputs.context == 'true'
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ${{ steps.context.outputs.context_dir }}
           outputs: |
             type=${{ (steps.context.outputs.push_image == 'true') && 'registry' || 'docker' }}
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
