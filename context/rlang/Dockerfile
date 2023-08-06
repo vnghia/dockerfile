@@ -2,17 +2,19 @@ FROM r-base:4.3.1
 
 # bspm
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  python3-dbus python3-gi python3-apt \
+  python3-apt \
   && Rscript -e 'install.packages(c("bspm"))' \
   && echo "suppressMessages(bspm::enable())" | tee -a /etc/R/Rprofile.site \
   && rm -rf /var/lib/apt/lists/*
 
 # languageserver
-RUN Rscript -e 'install.packages(c("languageserver"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("languageserver"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # tidyverse
-RUN Rscript -e 'install.packages(c("dplyr", "reshape2", "tidyverse"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("dplyr", "reshape2", "tidyverse"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # python3 and common packages
@@ -26,7 +28,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # ggplot2
-RUN Rscript -e 'install.packages(c("ggplot2", "hrbrthemes", "scico", "patchwork"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("ggplot2", "hrbrthemes", "scico", "patchwork"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # rmarkdown
@@ -36,11 +39,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # tinytex
-RUN Rscript -e 'install.packages(c("tinytex")); library(tinytex); install_tinytex(force = TRUE); tlmgr_install(c("biblatex"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("tinytex")); library(tinytex); install_tinytex(force = TRUE); tlmgr_install(c("biblatex"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # tikz
-RUN Rscript -e 'library(tinytex); tlmgr_install(c("pgf", "preview", "xcolor")); parse_install(files = c("grfext.sty", "luatex85.sty"))' \
+RUN apt-get update \
+  && Rscript -e 'library(tinytex); tlmgr_install(c("pgf", "preview", "xcolor")); parse_install(files = c("grfext.sty", "luatex85.sty"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # biber
