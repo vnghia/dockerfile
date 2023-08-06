@@ -59,12 +59,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   wget perl ca-certificates build-essential \
   libbtparse-dev libssl-dev \
   && mkdir -p /opt/biber \
-  && wget https://github.com/plk/biber/archive/refs/tags/v2.19.tar.gz -O - \
+  && wget -qO- https://github.com/plk/biber/archive/refs/tags/v2.19.tar.gz \
   | tar -xz --strip-components 1 -C /opt/biber \
   && cd /opt/biber/ \
   && cpan -T Module::Build XML::LibXML \
   && perl Build.PL \
   && ./Build installdeps --cpan_client 'cpan -T' \
   && ./Build install \
+  && rm -rf /root/.cpan \
   && rm -rf /opt/biber \
   && rm -rf /var/lib/apt/lists/*
