@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && python -m venv $VIRTUAL_ENV \
   && pip install --no-cache-dir numpy pandas jupyterlab radian \
   && Rscript -e 'install.packages(c("reticulate", "IRkernel")); IRkernel::installspec()' \
+  && echo "reticulate::use_virtualenv('$VIRTUAL_ENV', required = TRUE)" | tee -a /etc/R/Rprofile.site \
   && rm -rf /var/lib/apt/lists/*
 
 # ggplot2
