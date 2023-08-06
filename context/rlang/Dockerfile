@@ -1,15 +1,21 @@
 FROM r-base:4.3.1
 
 # bspm
-RUN Rscript -e 'install.packages(c("bspm"))' \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  python3-apt \
+  && Rscript -e 'install.packages(c("bspm"))' \
+  && echo "suppressMessages(bspm::enable())" | tee -a /etc/R/Rprofile.site \
+  && echo "options(install.packages.compile.from.source = 'never')" | tee -a /etc/R/Rprofile.site \
   && rm -rf /var/lib/apt/lists/*
 
 # languageserver
-RUN Rscript -e 'install.packages(c("languageserver"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("languageserver"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # tidyverse
-RUN Rscript -e 'install.packages(c("dplyr", "reshape2", "tidyverse"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("dplyr", "reshape2", "tidyverse"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # python3 and common packages
@@ -20,18 +26,31 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && python -m venv $VIRTUAL_ENV \
   && pip install --no-cache-dir numpy pandas jupyterlab radian \
   && Rscript -e 'install.packages(c("reticulate", "IRkernel")); IRkernel::installspec()' \
+  && echo "reticulate::use_virtualenv('$VIRTUAL_ENV', required = TRUE)" | tee -a /etc/R/Rprofile.site \
   && rm -rf /var/lib/apt/lists/*
 
 # ggplot2
-RUN Rscript -e 'install.packages(c("ggplot2", "hrbrthemes", "scico", "patchwork"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("ggplot2", "hrbrthemes", "scico", "patchwork"))' \
+  && rm -rf /var/lib/apt/lists/*
+
+# rmarkdown
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  pandoc \
+  && Rscript -e 'install.packages(c("rmarkdown", "bookdown", "kableExtra"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # tinytex
-RUN Rscript -e 'install.packages(c("tinytex")); library(tinytex); install_tinytex(force = TRUE); tlmgr_install(c("biblatex"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("tinytex")); library(tinytex); install_tinytex(force = TRUE); tlmgr_install(c("biblatex"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # tikz
-RUN Rscript -e 'library(tinytex); tlmgr_install(c("pgf", "preview", "xcolor")); parse_install(files = c("grfext.sty", "luatex85.sty"))' \
+RUN apt-get update \
+  && Rscript -e 'install.packages(c("tikzDevice")); library(tinytex); tlmgr_install(c("pgf", "preview", "xcolor")); parse_install(files = c("grfext.sty", "luatex85.sty"))' \
+  && echo "options(tikzLatex = '/root/bin/pdflatex')" | tee -a /etc/R/Rprofile.site \
+  && echo "options(tikzXelatex = '/root/bin/xelatex')" | tee -a /etc/R/Rprofile.site \
+  && echo "options(tikzLualatex = '/root/bin/lualatex')" | tee -a /etc/R/Rprofile.site \
   && rm -rf /var/lib/apt/lists/*
 
 # biber
@@ -40,12 +59,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   wget perl ca-certificates build-essential \
   libbtparse-dev libssl-dev \
   && mkdir -p /opt/biber \
-  && wget https://github.com/plk/biber/archive/refs/tags/v2.19.tar.gz -O - \
+  && wget -qO- https://github.com/plk/biber/archive/refs/tags/v2.19.tar.gz \
   | tar -xz --strip-components 1 -C /opt/biber \
   && cd /opt/biber/ \
   && cpan -T Module::Build XML::LibXML \
   && perl Build.PL \
   && ./Build installdeps --cpan_client 'cpan -T' \
   && ./Build install \
+  && rm -rf /root/.cpan \
   && rm -rf /opt/biber \
   && rm -rf /var/lib/apt/lists/*
