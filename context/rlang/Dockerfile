@@ -36,7 +36,7 @@ RUN apt-get update \
 # rmarkdown
 RUN apt-get update && apt-get install -y --no-install-recommends \
   pandoc \
-  && Rscript -e 'install.packages(c("rmarkdown", "bookdown"))' \
+  && Rscript -e 'install.packages(c("rmarkdown", "bookdown", "kableExtra"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # tinytex
