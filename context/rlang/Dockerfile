@@ -26,6 +26,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN Rscript -e 'install.packages(c("ggplot2", "hrbrthemes", "scico", "patchwork"))' \
   && rm -rf /var/lib/apt/lists/*
 
+# rmarkdown
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  pandoc \
+  && Rscript -e 'install.packages(c("rmarkdown", "bookdown"))'
+
 # tinytex
 RUN Rscript -e 'install.packages(c("tinytex")); library(tinytex); install_tinytex(force = TRUE); tlmgr_install(c("biblatex"))' \
   && rm -rf /var/lib/apt/lists/*
