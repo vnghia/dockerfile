@@ -97,6 +97,6 @@ jobs:
         if: ${{ steps.context.outputs.push_image != 'true' }}
         uses: actions/upload-artifact@v3
         with:
-          name: test-output
+          name: test-output-${{ matrix.platform }}
           path: ${{ steps.context.outputs.context_test }}/output
           if-no-files-found: warn
