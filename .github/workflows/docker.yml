@@ -19,18 +19,30 @@ jobs:
     outputs:
       context_root: ${{ steps.context_root.outputs.context_root }}
       contexts: ${{ steps.contexts.outputs.contexts }}
+      platform: ${{ steps.platform.outputs.result }}
     steps:
       - uses: actions/checkout@v3
       - id: context_root
         run: echo "context_root=context" >> $GITHUB_OUTPUT
       - id: contexts
         run: echo "contexts=$(cd ${{ steps.context_root.outputs.context_root }} && ls -d * | jq --raw-input --slurp --compact-output 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+      - id: platform
+        uses: actions/github-script@v6
+        with:
+          script: |
+            if (context.eventName === "pull_request") {
+              return ["linux/amd64", "linux/arm64"]
+            }
+            else {
+              return ["linux/amd64,linux/arm64"]
+            }
 
   docker:
     needs: collect_contexts
     strategy:
       matrix:
         context: ${{ fromJson(needs.collect_contexts.outputs.contexts) }}
+        platform: ${{ fromJson(needs.collect_contexts.outputs.platform) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -70,7 +82,7 @@ jobs:
           context: ${{ steps.context.outputs.context_dir }}
           outputs: |
             type=${{ (steps.context.outputs.push_image == 'true') && 'registry' || 'docker' }}
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ matrix.platform }}
           tags: ${{ steps.tag.outputs.image_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
