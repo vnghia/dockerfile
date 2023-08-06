@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   python3-apt \
   && Rscript -e 'install.packages(c("bspm"))' \
   && echo "suppressMessages(bspm::enable())" | tee -a /etc/R/Rprofile.site \
+  && echo "options(install.packages.compile.from.source = 'never')" | tee -a /etc/R/Rprofile.site \
   && rm -rf /var/lib/apt/lists/*
 
 # languageserver
