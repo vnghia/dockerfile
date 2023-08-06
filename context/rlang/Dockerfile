@@ -2,7 +2,7 @@ FROM r-base:4.3.1
 
 # bspm
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  python3-apt \
+  python3-dbus python3-gi python3-apt \
   && Rscript -e 'install.packages(c("bspm"))' \
   && echo "suppressMessages(bspm::enable())" | tee -a /etc/R/Rprofile.site \
   && rm -rf /var/lib/apt/lists/*
