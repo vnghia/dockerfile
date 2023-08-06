@@ -49,6 +49,7 @@ RUN apt-get update \
 RUN apt-get update \
   && Rscript -e 'install.packages(c("tikzDevice")); library(tinytex); tlmgr_install(c("pgf", "preview", "xcolor")); parse_install(files = c("grfext.sty", "luatex85.sty"))' \
   && rm -rf /var/lib/apt/lists/*
+ENV PATH="/root/bin:$PATH"
 
 # biber
 # TODO: https://tex.stackexchange.com/questions/640197/no-biber-executable-but-tlmgr-claims-its-installed
