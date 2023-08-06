@@ -1,7 +1,10 @@
 FROM r-base:4.3.1
 
 # bspm
-RUN Rscript -e 'install.packages(c("bspm"))' \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  python3-apt \
+  && Rscript -e 'install.packages(c("bspm"))' \
+  && echo "suppressMessages(bspm::enable())" | tee -a /etc/R/Rprofile.site \
   && rm -rf /var/lib/apt/lists/*
 
 # languageserver
@@ -29,7 +32,8 @@ RUN Rscript -e 'install.packages(c("ggplot2", "hrbrthemes", "scico", "patchwork"
 # rmarkdown
 RUN apt-get update && apt-get install -y --no-install-recommends \
   pandoc \
-  && Rscript -e 'install.packages(c("rmarkdown", "bookdown"))'
+  && Rscript -e 'install.packages(c("rmarkdown", "bookdown"))' \
+  && rm -rf /var/lib/apt/lists/*
 
 # tinytex
 RUN Rscript -e 'install.packages(c("tinytex")); library(tinytex); install_tinytex(force = TRUE); tlmgr_install(c("biblatex"))' \
