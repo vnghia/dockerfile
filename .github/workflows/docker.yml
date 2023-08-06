@@ -93,10 +93,17 @@ jobs:
           pip install -q -r test/test-requirements.txt
           mkdir -p ${{ steps.context.outputs.context_test }}
           cd ${{ steps.context.outputs.context_test }} && python ${GITHUB_WORKSPACE}/test/test-entry.py ${{ steps.build.outputs.imageid }} test.json
+      - name: Set output name
+        id: output-name
+        if: ${{ steps.context.outputs.push_image != 'true' }}
+        run: |
+          PLATFORM=${{ matrix.platform }}
+          PLATFORM_SLUG=$(echo $PLATFORM | sed -e 's/\//-/g')
+          echo "platform-slug=$PLATFORM_SLUG" >> $GITHUB_OUTPUT
       - name: Upload test output
         if: ${{ steps.context.outputs.push_image != 'true' }}
         uses: actions/upload-artifact@v3
         with:
-          name: test-output-${{ matrix.platform }}
+          name: test-output-${{ steps.output-name.outputs.platform-slug }}
           path: ${{ steps.context.outputs.context_test }}/output
           if-no-files-found: warn
