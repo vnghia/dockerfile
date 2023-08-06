@@ -47,7 +47,7 @@ RUN apt-get update \
 
 # tikz
 RUN apt-get update \
-  && Rscript -e 'library(tinytex); tlmgr_install(c("pgf", "preview", "xcolor")); parse_install(files = c("grfext.sty", "luatex85.sty"))' \
+  && Rscript -e 'install.packages(c("tikzDevice")); library(tinytex); tlmgr_install(c("pgf", "preview", "xcolor")); parse_install(files = c("grfext.sty", "luatex85.sty"))' \
   && rm -rf /var/lib/apt/lists/*
 
 # biber
